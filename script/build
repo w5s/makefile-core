@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Stop when errors
+set -e
+
+# Default directories
+SCRIPT_DIR="$(dirname "$0")"
+cd "$SCRIPT_DIR/.."
+ROOT_DIR=$(pwd)
+
+OUTPUT_FILE="core.mk"
+
+divider() {
+  echo '#⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯'
+}
+
+concat_source() {
+  title=$1
+  filename=$2
+  output="$ROOT_DIR/$OUTPUT_FILE"
+
+  if [ "$title" != "" ];then
+    divider >> $output
+    echo "# $title" >> $output
+    echo "# @see $filename" >> $output
+    divider >> $output
+    echo '' >> $output
+  fi
+  cat "$ROOT_DIR/$filename" >> $output
+  echo '' >> $output
+}
+
+> "$ROOT_DIR/$OUTPUT_FILE"
+concat_source "" "src/_header.mk"
+concat_source "INIT" "src/init.mk"
+concat_source "CONSOLE" "src/console.mk"
+concat_source "FUNCTIONS" "src/functions.mk"
+concat_source "HOOKS" "src/hooks.mk"
+concat_source "LOG" "src/log.mk"
+concat_source "VARIABLES" "src/variables.mk"
+concat_source "UPDATER" "src/updater.mk"
+concat_source "EVAL" "src/eval.mk"
+concat_source "PRINT-ENV" "src/print-env.mk"
+concat_source "DOCTOR" "src/doctor.mk"
+concat_source "HELP" "src/help.mk"
+concat_source "MAIN" "src/main.mk"

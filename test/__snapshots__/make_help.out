@@ -1,0 +1,30 @@
+
+  Usage:
+
+    make <target> [FLAG1=...] [FLAG2=...]
+
+  Targets:
+
+    doctor           Check your system for potential problems.
+    eval             command=<string> Evaluate command in make environment
+    help             Show this help
+    print-env        Display all env variables exported by make
+    print-variables  Print all declared variables
+    self-add         url=<git-repository> [name=<string>] Install a module in .modules/ (using git subtree)
+    self-list        List all installed modules (in module.json)
+    self-update      Update all modules (in .modules/)
+    test-included    Test target included
+    test-root        test=true Test included root
+
+  Flags:
+
+    LOG_LEVEL            Set the log level (debug/info/warn/error/fatal default:info)
+    MAKEFILE_CONFIG      Optional Makefile versioned that override any value (default "Makefile.config")
+    MAKEFILE_CORE_URL    Upstream for core.mk used by make self-update
+    MAKEFILE_EXCLUDE     Makefiles to be excluded (default "$(MAKEFILE_CORE)")
+    MAKEFILE_INCLUDE     Makefiles to be included (default ".modules/*/Makefile", ".modules/*/*.{mk,make}")
+    MAKEFILE_LOCAL       Optional Makefile unversioned that override any value (default "Makefile.local")
+    TEST_FLAG_INCLUDED   Test flag included
+    TEST_FLAG_ROOT       test=true Test Flag Root
+    VERBOSE              Set the make output as verbose
+

@@ -1,0 +1,23 @@
+{
+  "name": "Makefile core default container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu@sha256:8e6762ffc190e651180923b40a157c8dc21e2b1eb4438369860eee749b30f3cb",
+  "postCreateCommand": "",
+  "remoteUser": "vscode",
+  "features": {},
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/zsh"
+      },
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "fabiospampinato.vscode-todo-plus",
+        "seatonjiang.gitmoji-vscode",
+        "eamodio.gitlens",
+        "ms-vsliveshare.vsliveshare",
+        "ms-vscode.makefile-tools"
+      ]
+    }
+  }
+}

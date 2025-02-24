@@ -1,0 +1,4 @@
+LC_COLLATE=C
+LC_NUMERIC=C
+LOG_LEVEL=info
+TEST_FLAG_ROOT=test-flag-root
