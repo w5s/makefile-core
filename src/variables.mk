@@ -53,12 +53,12 @@ export MAKE_PPID
 
 # Read uname (Linux|Darwin|...|Unknown)
 ifndef UNAME
-UNAME := $(shell uname 2>/dev/null || echo Unknown)
+UNAME := $(shell uname 2>$(NULL) || echo Unknown)
 endif
 
 # Read uname short name (Linux|Darwin|...|Unknown)
 ifndef OS
-OS := $(shell uname -s 2>/dev/null || echo Unknown)
+OS := $(shell uname -s 2>$(NULL) || echo Unknown)
 endif
 
 # Host name (ex: MacBook-Pro-13-de-Julien.local)

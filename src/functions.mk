@@ -80,5 +80,5 @@ filter-false = $(filter-out 0 n no f false,$(call lowercase,$(1)))
 # 	NODE_VERSION_MANAGER := $(call resolve-command,asdf nodenv nvm)
 #
 define resolve-command
-$(firstword $(foreach cmd,$(1),$(shell which $(cmd) &>/dev/null && echo $(cmd))))
+$(firstword $(foreach cmd,$(1),$(shell which $(cmd) &>$(NULL) && echo $(cmd))))
 endef
