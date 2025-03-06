@@ -1,9 +1,5 @@
 # Variables that are defined in makefile
-define .VARIABLES_ENV
-$(foreach V,$(.VARIABLES), \
-	$(if $(filter-out environment% default automatic, $(origin $V)), $V) \
-)
-endef
+.VARIABLES_ENV = $(foreach V,$(.VARIABLES),$(if $(filter-out environment% default automatic,$(origin $V)),$V))
 
 # Not portable variables
 .VARIABLES_INTERNAL_HIDDEN := PWD SHELL MAKEFLAGS MAKE_PID MAKE_PPID
