@@ -1,6 +1,6 @@
 {
   "name": "Makefile core default container",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu@sha256:e6cac7682e119650eb1d55f403d4f27febee89782ec7eaea2b9100b2c543c39c",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu@sha256:601ef3f088ffd5ca63aee990a46712478d14dbf8927076d3118775a7b3fd813d",
   "postCreateCommand": "",
   "remoteUser": "vscode",
   "features": {},
