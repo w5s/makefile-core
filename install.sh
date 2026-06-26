@@ -37,10 +37,17 @@ if [[ ! -f Makefile.config.mk ]]; then
 # Upstream for core.mk used by make self-update
 export MAKEFILE_CORE_URL := $MAKEFILE_CORE_URL
 
-# Project name (ex: vesta)
+# git commit format
+export MAKEFILE_CORE_GIT_COMMIT_FORMAT := conventional
+
+# Uncomment this to override
+# MAKEFILE_CORE_ADD_COMMIT_MESSAGE_PREFIX ?= 🔨 Add
+# MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX ?= 🔨 Upgrade
+
+# Project name (ex: my-repository)
 # export CI_PROJECT_NAME ?= <TODO>
 
-# Project namespace (ex: w5s)
+# Project namespace (ex: my-organization)
 # export CI_PROJECT_NAMESPACE ?= <TODO>
 EOF
 
