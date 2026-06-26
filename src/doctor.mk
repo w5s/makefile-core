@@ -32,12 +32,13 @@ doctor: ## Check your system for potential problems.
 	@$(call log,info,"✓ Checking git submodules",1);
 	$(Q)if [ ! -f .gitmodules ]; then \
 		exit 0; \
-	fi
-	$(Q)MISSING=$$(grep path .gitmodules | sed 's/.*= //' | xargs -n 1 sh -c 'test ! -d "$$0" && echo $$0'); \
-	if [ -n "$$MISSING" ]; then \
-		$(call log,error,Some git submodules are not installed,2); \
-		$(call log,error,Run 'make self-install to fix.',2); \
-		exit 1; \
+	else \
+		MISSING=$$(grep path .gitmodules | sed 's/.*= //' | xargs -n 1 sh -c 'test ! -d "$$0" && echo $$0'); \
+		if [ -n "$$MISSING" ]; then \
+			$(call log,error,Some git submodules are not installed,2); \
+			$(call log,error,Run 'make self-install to fix.',2); \
+			exit 1; \
+		fi; \
 	fi
 
 MAKEFILE_DOCTOR_TARGETS += .doctor.git-submodules
