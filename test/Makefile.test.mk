@@ -33,6 +33,9 @@ stub-filter-false:
 stub-resolve-command:
 	$(Q)echo $(call resolve-command,$(input))
 
+test-config-load:
+	$(Q)echo config=$(TEST_CONFIG_FROM_MK) config_ext=$(TEST_CONFIG_FROM_EXT) local=$(TEST_LOCAL_FROM_MK) local_ext=$(TEST_LOCAL_FROM_EXT)
+
 .PHONY: stub-core-hooks $(call core-hooks,.stub-core-hooks)
 stub-core-hooks: $(call core-hooks,.stub-core-hooks)
 	$(Q):

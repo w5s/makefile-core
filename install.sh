@@ -20,8 +20,8 @@ if ! grep "$INCLUDE_TEMPLATE" Makefile > /dev/null; then
   cat << EOF > Makefile
 # Include Core
 # The following files will be included before
-# 1. Makefile.local (⚠️ This file should never be versioned)
-# 2. Makefile.config
+# 1. Makefile.local.mk (⚠️ This file should never be versioned)
+# 2. Makefile.config.mk
 # 3. .modules/core.mk (default values)
 # 4. .modules/*/module.mk
 $INCLUDE_TEMPLATE
@@ -30,8 +30,8 @@ EOF
 
 fi
 
-if [[ ! -f Makefile.config ]]; then
-  cat << EOF > Makefile.config
+if [[ ! -f Makefile.config.mk ]]; then
+  cat << EOF > Makefile.config.mk
 # Makefile configuration
 
 # Upstream for core.mk used by make self-update

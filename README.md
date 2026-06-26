@@ -13,8 +13,10 @@ This project aims to standardize most common functionalities. Simply copy and in
   - ✓ No extra dependency
   - ✓ Lightweight implementation
   - ✓ Compatible dependency maintainer bot (Renovate)
-- ℹ️ Automatic help generator, based on comments
-- ⚒️ Everything is customizable using `Makefile.local`
+- ℹ️ Automatic `make help` command, based on comments
+- 📦 Manage your shared makefile module in `.modules/` with `make self-add` / `make self-update` to sync with git repositories (uses git subtree)
+- 🔍 Inspect your variables and env variables with `make print-variables` and `make print-env`
+- ⚒️ Everything is customizable using `Makefile.local.mk` / `Makefile.config.mk`
 
 ## Installation
 
@@ -117,13 +119,13 @@ Example :
 
 ### `make print-env`
 
-Display all env variables exported by make. This is useful for debugging. Another use is for dumping environment and use it in `Makefile.local` to be loaded elsewhere.
+Display all env variables exported by make. This is useful for debugging. Another use is for dumping environment and use it in `Makefile.local.mk` to be loaded elsewhere.
 
 Example :
 
 ```console
-> make print-env > Makefile.local
-# This will create a Makefile.local that can be used to initialize all environment variables used by the environment
+> make print-env > Makefile.local.mk
+# This will create a Makefile.local.mk that can be used to initialize all environment variables used by the environment
 ```
 
 ### `make print-variables`
@@ -149,23 +151,23 @@ Example :
 
 ## Configuration
 
-Override any variables/targets by creating `Makefile.local` / `Makefile.config`
+Override any variables/targets by creating `Makefile.local.mk` / `Makefile.config.mk`
 
 ```shell
 my-project/
 ├─ .modules/
 │  ├─ ...
 ├─ Makefile
-├─ Makefile.config <- Will override (versioned)
-├─ Makefile.local <- Will override (not versioned)
+├─ Makefile.config.mk <- Will override (versioned)
+├─ Makefile.local.mk <- Will override (not versioned)
 ```
 
 > [!NOTE]
 >
 > Including  `.modules/core.mk`  will also include files in the following order
 >
-> 1. `<projectDir>/Makefile.local` (not versioned file)
-> 2. `<projectDir>/Makefile.config` (versioned file)
+> 1. `<projectDir>/Makefile.local.mk` (not versioned file)
+> 2. `<projectDir>/Makefile.config.mk` (versioned file)
 > 3. `<projectDir>/.modules/core.mk` (default values)
 > 4. `<projectDir>/.modules/*/module.mk`
 

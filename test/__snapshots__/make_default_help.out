@@ -19,11 +19,11 @@
   Flags:
 
     LOG_LEVEL            Set the log level (debug/info/warn/error/fatal default:info)
-    MAKEFILE_CONFIG      Optional Makefile versioned that override any value (default "Makefile.config")
+    MAKEFILE_CONFIG      Optional Makefile versioned that override any value (default "Makefile.config.mk")
     MAKEFILE_CORE_URL    Upstream for core.mk used by make self-update
     MAKEFILE_EXCLUDE     Makefiles to be excluded (default "$(MAKEFILE_CORE)")
     MAKEFILE_INCLUDE     Makefiles to be included (default ".modules/*/Makefile", ".modules/*/*.{mk,make}")
-    MAKEFILE_LOCAL       Optional Makefile unversioned that override any value (default "Makefile.local")
+    MAKEFILE_LOCAL       Optional Makefile unversioned that override any value (default "Makefile.local.mk")
     TEST_FLAG_INCLUDED   Test flag included
     TEST_FLAG_ROOT       test=true Test Flag Root
     VERBOSE              Set the make output as verbose

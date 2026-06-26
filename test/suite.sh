@@ -3,8 +3,40 @@ _TERM=$TERM
 
 export SHELL=${SHELL:-/bin/bash}
 
+cleanup_config_files() {
+	rm -f Makefile.config Makefile.config.mk Makefile.config.extra \
+		Makefile.local Makefile.local.mk Makefile.local.extra
+}
+
+trap cleanup_config_files EXIT
+
+cat <<'EOF' > Makefile.config
+TEST_CONFIG_FROM_EXT ?= config-base
+EOF
+
+cat <<'EOF' > Makefile.config.mk
+TEST_CONFIG_FROM_MK ?= config-mk
+EOF
+
+cat <<'EOF' > Makefile.config.extra
+TEST_CONFIG_FROM_EXT ?= config-extra
+EOF
+
+cat <<'EOF' > Makefile.local
+TEST_LOCAL_FROM_EXT ?= local-base
+EOF
+
+cat <<'EOF' > Makefile.local.mk
+TEST_LOCAL_FROM_MK ?= local-mk
+EOF
+
+cat <<'EOF' > Makefile.local.extra
+TEST_LOCAL_FROM_EXT ?= local-extra
+EOF
+
 unset TERM;
 assert "$MAKE_TEST test-included" 'test-included-done'
+assert "$MAKE_TEST test-config-load" 'config=config-mk config_ext=config-base local=local-mk local_ext=local-base'
 
 # FIXME:
 # assert_snapshot "$MAKE_TEST print-variables" "make_print-variables.out"
