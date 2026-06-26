@@ -90,6 +90,28 @@ Display all available targets and flags
 > ...
 > ```
 
+### `make doctor`
+
+Run built-in diagnostics to detect common setup issues. The command runs all registered doctor checks and fails if any check fails.
+
+Example:
+
+```console
+> make doctor
+```
+
+> [!TIP]
+>
+> Extend `make doctor` by adding your own `.doctor.*` target and registering it in `MAKEFILE_DOCTOR_TARGETS`.
+>
+> ```makefile
+> .PHONY: .doctor.my-check
+> .doctor.my-check:
+> 	@test -f .env || (echo "Missing .env" && exit 1)
+>
+> MAKEFILE_DOCTOR_TARGETS += .doctor.my-check
+> ```
+
 ### `make self-add`
 
 Add a makefile module (as git submodule). If a `./module.mk` is found it will be automatically included.
