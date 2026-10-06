@@ -542,9 +542,24 @@ else
 # module.json found
 	$(Q)$(JQ) -r 'to_entries[] | "\(.key) \(.value)"' $(MAKEFILE_CORE_MODULES_FILE) | while read name repo; do \
 		$(call log,info,>> $$name,1); \
-		git subtree pull --prefix=$(MODULES_PATH)/$$name $$repo main \
-			--squash \
-			--message "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) $$name"; \
+		tmp=$$(mktemp -d) && \
+		trap '$(RM) -rf "$$tmp"' EXIT && \
+		$(GIT) fetch "$$repo" main && \
+		rev=$$($(GIT) rev-parse FETCH_HEAD) && \
+		$(GIT) archive "$$rev" | tar -x -C "$$tmp" && \
+		$(RM) -rf "$(MODULES_PATH)/$$name" && \
+		$(MKDIRP) "$(MODULES_PATH)/$$name" && \
+		$(CP) -R "$$tmp"/. "$(MODULES_PATH)/$$name"/ && \
+		$(RM) -rf "$$tmp" && \
+		$(GIT) add -A -- "$(MODULES_PATH)/$$name" && \
+		if $(GIT) diff --cached --quiet -- "$(MODULES_PATH)/$$name"; then \
+			$(call log,info,$$name is already up to date,1); \
+		else \
+			$(GIT) commit \
+				-m "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) $$name" \
+				-m "Upstream: $$repo@$$rev" \
+				-- "$(MODULES_PATH)/$$name"; \
+		fi; \
 	done
 	@$(call log,info,[Make] Update finished,0)
 endif
