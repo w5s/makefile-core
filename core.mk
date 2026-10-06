@@ -488,7 +488,7 @@ self-add: $(MODULES_PATH) ## url=<git-repository> [name=<string>] Install a modu
 	$(Q)$(GIT) subtree add --prefix=$(MODULES_PATH)/$(.self_add_module) $(url) main \
 		--squash \
 		--message "$(MAKEFILE_CORE_ADD_COMMIT_MESSAGE_PREFIX) $(.self_add_module)";
-# git commit -m "chore(subtree): add $(name) from $(repo)";
+# git commit -m "chore(deps): add $(name) from $(repo)";
 
 # Create empty file if it does not exist
 	$(Q)if [ ! -f "$(MAKEFILE_CORE_MODULES_FILE)" ]; then \
@@ -526,9 +526,21 @@ self-update.core:
 	$(Q)-$(CURL) -sSfL "$(MAKEFILE_CORE_URL)" --output "$(MAKEFILE_CORE)"
 # Update index (if file was not changed, we do not care about file time modification)
 	$(Q)-$(GIT) update-index --refresh $(MAKEFILE_CORE) || true
-# Commit changes if needed
+# Commit changes if needed. The digest is the upstream commit when the URL is a GitHub raw file.
 	$(Q)$(GIT) diff --quiet HEAD -- $(MAKEFILE_CORE) \
-		|| $(GIT) commit -m "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) makefile-core" $(MAKEFILE_CORE)
+		|| { \
+			repo_slug=$$(printf '%s\n' "$(MAKEFILE_CORE_URL)" | $(SED) -nE 's#https://raw.githubusercontent.com/([^/]+/[^/]+)/[^/]+/.*#\1#p'); \
+			rev=$$($(GIT) ls-remote "https://github.com/$$repo_slug" HEAD | awk 'NR==1 { print $$1 }'); \
+			short=$$(printf '%.7s' "$$rev"); \
+			if [ -n "$$short" ]; then \
+				$(GIT) commit \
+					-m "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) makefile-core to $$short" \
+					-m "Upstream: https://github.com/$$repo_slug@$$rev" \
+					$(MAKEFILE_CORE); \
+			else \
+				$(GIT) commit -m "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) makefile-core" $(MAKEFILE_CORE); \
+			fi; \
+		}
 
 # Target for makefile modules
 .PHONY: self-update.modules
@@ -555,8 +567,9 @@ else
 		if $(GIT) diff --cached --quiet -- "$(MODULES_PATH)/$$name"; then \
 			$(call log,info,$$name is already up to date,1); \
 		else \
+			short=$$(printf '%.7s' "$$rev"); \
 			$(GIT) commit \
-				-m "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) $$name" \
+				-m "$(MAKEFILE_CORE_UPDATE_COMMIT_MESSAGE_PREFIX) $$name to $$short" \
 				-m "Upstream: $$repo@$$rev" \
 				-- "$(MODULES_PATH)/$$name"; \
 		fi; \
